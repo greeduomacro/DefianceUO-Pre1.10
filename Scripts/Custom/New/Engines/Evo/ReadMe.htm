@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<P><STRONG><FONT size="4">Evo Creature System 1.6 Notes, 6/7/05</FONT></STRONG></P>
+		<P>This system comes with the Evolution dragon, hiyru and mercenary and allows fast 
+			and easy creation of new creatures by simply filling in the details of a set of 
+			table like structures, one for each stage in the creature's evolution and 
+			copying a small set of template classes and replacing the class names with a 
+			newly chosen name. It also allows almost anyone to quickly and easily tune evos 
+			created under this framework. Unlike other evolution creatures found on the 
+			boards timers are not used, resulting in less server lag. The code is well 
+			written and rock solid.</P>
+		<P><STRONG>Acknowledgements</STRONG></P>
+		<P>This framework is my own design. The idea of the evolution creatures and the 
+			shrink system and its features are borrowed from the creative minds of the 
+			RunUO forum. I do not know the origin of all of these ideas, however there are 
+			a few people whose code I used as a guide to model this system. Most notably 
+			are: Ronin GT and Asayre8 for their shrink systems, Raelis for the Evolution 
+			Dragon and mating gump,&nbsp;GG521 for the Evolution Hiryu, and Sadoul/Grae for 
+			their Evolution Mercenary ideas.&nbsp; Thanks also to Protius73 and bzk90 for 
+			their contributions in the forum. Special thanks to Princess Monika for her 
+			inspiration.</P>
+		<P><STRONG>Features</STRONG></P>
+		<UL>
+			<LI>
+			Easy creation of new evolution creatures (a.k.a. Evos), as well as the 
+			associated eggs and dust
+			<LI>
+			A command (EP) that can be used by players to get the experience points of 
+			their Evo
+			<LI>
+			Easy tuning of deployed Evos, by admins - no programming experience necessary 
+			for most changes
+			<LI>
+			Evos can be configured to always remain "Wonderfully Happy" or, without 
+			feeding,&nbsp;allow loyalty to decay&nbsp;like other pets
+			<LI>
+			Integrated shrink system that works with Evos and any other creature derived 
+			from BaseCreature (and BaseMount)
+			<LI>
+			Shrink system comes with shrink command, pet leash and hitching post items
+			<LI>
+			Shrinking tools can be configured to require zero or more points of taming. 
+			They may also be configured to use charges
+			<LI>
+			Shrunken pets can optionally show stats, be locked or blessed based on 
+			configuration variables
+			<LI>
+			The shrinking is fast and error free as it uses the same method as the RunUO 
+			stable, placing pets on the internal map with IsStabled set to true
+			<LI>
+			A high hit point low damage&nbsp;Training Elemental comes with the 
+			system.&nbsp; The Elemental reflects 10% of the damage done to and can be 
+			configured as invulnerable or killable.
+			<LI>
+			The Evos in this system implement only one timer; the pregnancy timer, 
+			resulting in less server lag than many other evolution creature designs
+			<LI>
+			The Evo system comes with three Evo creatures: Dragon, Hiryu, and Mercenary 
+			(mercenary has many spoken commands and can equip a large range of items)
+			<LI>
+			The system is compatible with RunUO 1.0.0 and requires no changes to the RunUO 
+			distro files
+			<LI>
+				Easy to install and configure.</LI></UL>
+		<P><STRONG>Installation</STRONG></P>
+		<P>
+			This system is not compatible with other shrink systems as the format of 
+			shrunken pets my be different that what other systems expect. However, this 
+			shrink system will coexist with others allowing you to cut users over to the 
+			new shrink system after installation.</P>
+		<P>For installation, simply place the EVO directory into your customs directory. 
+			All shrink system configuration variables are maintained in ShrinkConfig.cs. 
+			&nbsp;Configuration of the Evo creatures is done in your derived classes.</P>
+		<P><STRONG>How To Create A New Evo</STRONG></P>
+		<OL>
+			<LI>
+			Make a copy of the Hiryu (if it is to be a mount) or Dragon directory under the 
+			EVO directory and rename it to YourClass.
+			<LI>
+			Rename all of the files, replacing EvoHiryu in each file name with YourClass.
+			<LI>
+			Inside the YourClass directory, open each file and replace all occurreneces of 
+			EvoHiryu to YourClass.
+			<LI>
+			In YourClass.cs, YourClassDust.cs and YourClassEgg.cs change the respective 
+			strings "a hiryu corpse", "hiryu dust", and "a hiryu egg" as appropriate.
+			<LI>
+		Open YourClassSpec.cs.
+		<OL>
+			<LI>
+			In the constructor of the YourClassSpec class, edit the variable values as you 
+			see fit.
+			<LI>
+				Add or remove YourClassStage<EM>X</EM>
+			class definitions, according to how many stages you plan to have, by copying 
+			and pasting one of the exisiting definitions.
+			<LI>
+				Change the assignment of the m_Stages vairable in the YourClassSpec constructor 
+				according to the number of stages YourClassStage<EM>X</EM> class definitions 
+				you have.</LI></OL>
+		<LI>
+			Edit the values of the variables in each of the YourClassStage<EM>X</EM> as 
+			appropriate for each stage of the creatures evolution. Setting any of the array 
+			type variables to null will cause them to not be changed in that stage of the 
+			evolution. Damage amount, hits, strength, dexterity and intelligence can be 
+			applied relatively or absolutely depending on the value of 
+			YourClassSpec.m_AbsoluteStatValues. All of the other variables are applied 
+			absolutely.</LI></OL>
+		<P><STRONG>Caveats</STRONG></P>
+		<P>You may use or modify this system in any way you desire, however I ask that you 
+			leave the original headers in the source files if you redistribute the sources 
+			in any way.</P>
+		<P>- Xanthos</P>
+	</body>
+</html>

@@ -1,0 +1,158 @@
+//Made by Admin Amarand of the shard Random Rp-Pvp
+using System;
+using Server.Mobiles;
+using Server.Items;
+
+namespace Server.Mobiles
+{
+	[CorpseName("a human corpse")]
+	public class PackHuman : BaseCreature
+	{
+		[Constructable]
+		public PackHuman() : base( AIType.AI_Animal, FightMode.Agressor, 10, 1, 0.2, 0.4 )
+		{
+			Name = "A Pack Human";
+			Body = 401;
+			Hue = 33770;
+                        BaseSoundID = 0;
+
+			SetStr( 52, 80 );
+			SetDex( 36, 55 );
+			SetInt( 16, 30 );
+
+			SetHits( 500 );
+			SetStam( 86, 105 );
+			SetMana( 0 );
+
+			SetDamage( 2, 6 );
+
+			SetDamageType( ResistanceType.Physical, 100 );
+
+			SetResistance( ResistanceType.Physical, 25, 35 );
+			SetResistance( ResistanceType.Fire, 10, 15 );
+			SetResistance( ResistanceType.Cold, 10, 15 );
+			SetResistance( ResistanceType.Poison, 10, 15 );
+			SetResistance( ResistanceType.Energy, 10, 15 );
+
+			SetSkill( SkillName.MagicResist, 15.1, 20.0 );
+			SetSkill( SkillName.Tactics, 19.2, 29.0 );
+			SetSkill( SkillName.Wrestling, 19.2, 29.0 );
+
+			Fame = 0;
+			Karma = 200;
+
+			VirtualArmor = 16;
+
+			Tamable = true;
+			ControlSlots = 1;
+			MinTameSkill = 50.1;
+
+			Container pack = Backpack;
+
+			if ( pack != null )
+				pack.Delete();
+
+			pack = new StrongBackpack();
+			pack.Movable = false;
+
+			AddItem( pack );
+
+			Item shirt = new Shirt();
+			shirt.Hue = 1157;
+			shirt.LootType = LootType.Blessed;
+			EquipItem( shirt );
+
+			Item longpants = new LongPants();
+			longpants.Hue = 45;
+			longpants.LootType = LootType.Blessed;
+			EquipItem( longpants );
+
+			Item shoes = new Shoes();
+			shoes.Hue = 72;
+			shoes.LootType = LootType.Blessed;
+			EquipItem( shoes );
+
+			Item longhair = new LongHair();
+			longhair.Hue = 59;
+			longhair.LootType = LootType.Blessed;
+			EquipItem( longhair );
+		}
+
+		public override int Meat{ get{ return 1; } }
+		public override FoodType FavoriteFood{ get{ return FoodType.FruitsAndVegies | FoodType.GrainsAndHay; } }
+
+		public PackHuman( Serial serial ) : base( serial )
+		{
+		}
+
+		#region Pack Animal Methods
+		public override bool OnBeforeDeath()
+		{
+			if ( !base.OnBeforeDeath() )
+				return false;
+
+			PackAnimal.CombineBackpacks( this );
+
+			return true;
+		}
+
+		public override bool IsSnoop( Mobile from )
+		{
+			if ( PackAnimal.CheckAccess( this, from ) )
+				return false;
+
+			return base.IsSnoop( from );
+		}
+
+		public override bool OnDragDrop( Mobile from, Item item )
+		{
+			if ( CheckFeed( from, item ) )
+				return true;
+
+			if ( PackAnimal.CheckAccess( this, from ) )
+			{
+				AddToBackpack( item );
+				return true;
+			}
+
+			return base.OnDragDrop( from, item );
+		}
+
+		public override bool CheckNonlocalDrop( Mobile from, Item item, Item target )
+		{
+			return PackAnimal.CheckAccess( this, from );
+		}
+
+		public override bool CheckNonlocalLift( Mobile from, Item item )
+		{
+			return PackAnimal.CheckAccess( this, from );
+		}
+
+		public override void OnDoubleClick( Mobile from )
+		{
+			PackAnimal.TryPackOpen( this, from );
+		}
+
+		public override void GetContextMenuEntries( Mobile from, System.Collections.ArrayList list )
+		{
+			base.GetContextMenuEntries( from, list );
+
+			PackAnimal.GetContextMenuEntries( this, from, list );
+		}
+		#endregion
+
+		public override void Serialize( GenericWriter writer )
+		{
+			base.Serialize( writer );
+
+			writer.Write( (int) 0 );
+		}
+
+		public override void Deserialize( GenericReader reader )
+		{
+			base.Deserialize( reader );
+
+			int version = reader.ReadInt();
+		}
+	}
+}

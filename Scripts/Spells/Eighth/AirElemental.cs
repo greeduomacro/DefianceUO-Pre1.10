@@ -1,0 +1,52 @@
+using System;
+using Server.Mobiles;
+using Server.Network;
+using Server.Targeting;
+
+namespace Server.Spells.Eighth
+{
+	public class AirElementalSpell : Spell
+	{
+		private static SpellInfo m_Info = new SpellInfo(
+				"Air Elemental", "Kal Vas Xen Hur",
+				SpellCircle.Eighth,
+				269,
+				9010,
+				false,
+				Reagent.Bloodmoss,
+				Reagent.MandrakeRoot,
+				Reagent.SpidersSilk
+			);
+
+		public AirElementalSpell( Mobile caster, Item scroll ) : base( caster, scroll, m_Info )
+		{
+		}
+
+		public override bool CheckCast()
+		{
+			if ( !base.CheckCast() )
+				return false;
+
+			if ( (Caster.Followers + 2) > Caster.FollowersMax )
+			{
+				Caster.SendLocalizedMessage( 1049645 ); // You have too many followers to summon that creature.
+				return false;
+			}
+
+			return true;
+		}
+
+		public override void OnCast()
+		{
+			if ( CheckSequence() )
+			{
+				if ( Core.AOS )
+					SpellHelper.Summon( new SummonedAirElemental(), Caster, 0x217, TimeSpan.FromSeconds( 4.0 * Caster.Skills[SkillName.Magery].Value ), false, false );
+				else
+					SpellHelper.Summon( new AirElemental(), Caster, 0x217, TimeSpan.FromSeconds( 4.0 * Caster.Skills[SkillName.Magery].Value ), false, false );
+			}
+
+			FinishSequence();
+		}
+	}
+}

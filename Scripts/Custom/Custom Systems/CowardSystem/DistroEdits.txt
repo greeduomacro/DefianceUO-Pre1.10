@@ -1,0 +1,232 @@
+Playermobile.cs
+
+// XLX added.
+      private ArrayList m_Cowards;
+      private ExpireCowardsTimer m_ExpireCowardsTimer;
+
+      public ArrayList Cowards
+      {
+         get { return m_Cowards; }
+      }
+
+      public void AddCoward( PlayerMobile coward, int notoriety )
+      {
+         bool addCoward = true;
+
+         ArrayList list = m_Cowards;
+         CowardiceInfo info;
+
+         for ( int i = 0; i < list.Count; ++i )
+         {
+            info = (CowardiceInfo)list[i];
+
+            if ( info.Coward == coward )
+            {
+               info.Notoriety = notoriety;
+               info.Refresh();
+
+               addCoward = false;
+            }
+         }
+
+         if ( addCoward )
+         {
+            m_Cowards.Add( CowardiceInfo.Create( coward, notoriety ) );
+
+            UpdateCowardExpire();
+
+            if ( this.CanSee( coward ) && NetState != null )
+               NetState.Send( new MobileIncoming( this, coward ) );
+         }
+      }
+
+      public override void OnBeneficialAction( Mobile target, bool isCriminal )
+      {
+         if( target != this && !isCriminal && target is PlayerMobile )
+         {
+            ArrayList list = target.Aggressors;
+            AggressorInfo info;
+            int notoriety;
+            PlayerMobile hero;
+            int cowardCount = 0;
+
+            for ( int i = 0; i < list.Count; ++i )
+            {
+               info = (AggressorInfo)list[i];
+
+               if( !(info.Attacker is PlayerMobile) )
+               {
+                  continue;
+               }
+
+               hero = (PlayerMobile)(info.Attacker);
+
+               notoriety = NotorietyHandlers.MobileNotoriety(hero, target);
+
+               if ( notoriety == Notoriety.CanBeAttacked || notoriety == Notoriety.Enemy )
+               {
+                  if(hero == this)
+                     continue;
+
+                  hero.AddCoward( this, notoriety );
+                  cowardCount++;
+               }
+            }
+
+            list = target.Aggressed;
+
+            for ( int i = 0; i < list.Count; ++i )
+            {
+               info = (AggressorInfo)list[i];
+
+               if( !(info.Defender is PlayerMobile) )
+               {
+                  continue;
+               }
+
+               hero = (PlayerMobile)(info.Defender);
+
+               notoriety = NotorietyHandlers.MobileNotoriety(hero, target);
+
+               if ( notoriety == Notoriety.CanBeAttacked || notoriety == Notoriety.Enemy )
+               {
+                  if(hero == this)
+                     continue;
+
+                  hero.AddCoward( this, notoriety );
+                  cowardCount++;
+               }
+            }
+
+            string battleGroup;
+
+            if(cowardCount > 5)
+            {
+               battleGroup = "wars";
+            }
+            else if(cowardCount > 1)
+            {
+               battleGroup = "enemies";
+            }
+            else if(cowardCount > 0)
+            {
+               battleGroup = "foe";
+            }
+            else
+            {
+               battleGroup = "imagination"; // No one was attacking him
+            }
+
+            if(cowardCount > 0)
+            {
+               SendMessage( "Benefiting " + target.Name + " has forfeited your innocence to his " + battleGroup + ".");
+            }
+         }
+
+         base.OnBeneficialAction(target, isCriminal);
+      }
+
+      private void UpdateCowardExpire()
+      {
+         if ( Deleted || (m_Cowards.Count == 0) )
+         {
+            StopCowardExpire();
+         }
+         else if ( m_ExpireCowardsTimer == null )
+         {
+            m_ExpireCowardsTimer = new ExpireCowardsTimer( this );
+            m_ExpireCowardsTimer.Start();
+         }
+      }
+
+      private void StopCowardExpire()
+      {
+         if ( m_ExpireCowardsTimer != null )
+            m_ExpireCowardsTimer.Stop();
+
+         m_ExpireCowardsTimer = null;
+      }
+
+      private void CheckCowardExpire()
+      {
+         for ( int i = m_Cowards.Count - 1; i >= 0; --i )
+         {
+            if ( i >= m_Cowards.Count )
+               continue;
+
+            CowardiceInfo info = (CowardiceInfo)m_Cowards[i];
+
+            if ( info.Expired )
+            {
+               PlayerMobile coward = (PlayerMobile)info.Coward;
+
+               m_Cowards.RemoveAt( i );
+               info.Free();
+
+               if ( NetState != null && this.CanSee( coward ) && Utility.InUpdateRange( Location, coward.Location ) )
+                  NetState.Send( new MobileIncoming( this, coward ) );
+            }
+         }
+
+         UpdateCowardExpire();
+      }
+
+      private class ExpireCowardsTimer : Timer
+      {
+         private PlayerMobile m_Mobile;
+
+         public ExpireCowardsTimer( PlayerMobile m ) : base( TimeSpan.FromSeconds( 5.0 ), TimeSpan.FromSeconds( 5.0 ) )
+         {
+            m_Mobile = m;
+            Priority = TimerPriority.FiveSeconds;
+         }
+
+         protected override void OnTick()
+         {
+            if ( m_Mobile.Deleted || (m_Mobile.Cowards.Count == 0) )
+               m_Mobile.StopCowardExpire();
+            else
+               m_Mobile.CheckCowardExpire();
+         }
+      }
+//XLX End.
+
+m_Cowards = new ArrayList( 1 ); // XLX added and End.
+
+m_Cowards = new ArrayList( 1 ); // XLX added and End.
+
+
+---------------------------------------------------------------------------------------------------
+
+Notoriety.cs
+
+ // XLX added.
+              public static int CheckCowardice( ArrayList list, Mobile target )
+
+         {
+         for ( int i = 0; i < list.Count; ++i )
+         {
+            CowardiceInfo info = (CowardiceInfo)list[i];
+
+           if( list == null || target == null)
+           return Notoriety.Invulnerable;
+
+            if ( info.Coward == target )
+               return info.Notoriety;
+         }
+             
+         return Notoriety.Invulnerable; // They aren't necessarily invul, but it's a good return code because not static
+         }
+ //XLX End.
+
+ // XLX added.
+                       if( source is PlayerMobile && target is PlayerMobile )
+                       {
+                       int noto = CheckCowardice(((PlayerMobile)source).Cowards, target);
+
+                        if( noto != Notoriety.Invulnerable )
+                       {
+                        return noto;
+                       }
+                       }
+ // XLX End.

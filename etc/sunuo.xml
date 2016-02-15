@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- This is the SunUO configuration file. http://www.sunuo.org/ -->
+
+<sunuo-config>
+  <network>
+    <bind port="2594"/>
+  </network>
+  <locations>
+    <!--the element 'data-path' sets the UO client directory-->
+    <data-path>C:\Program Files (x86)\EA Games\Ultima Online Mondain's Legacy</data-path>
+  </locations>
+  <libraries>
+    <library name="legacy">
+      <!-- <ignore-source name="Subversion/Misc/ZLib.cs" /> -->
+    </library>
+    <library name="myrunuo" disabled="yes" />
+    <library name="remote-admin" disabled="yes" />
+    <library name="reports" disabled="yes" />
+  </libraries>
+  <login>
+    <ignore-auth-id value="off" />
+  </login>
+  <global>
+    <multi-threading value="off" />
+    <feature name="manual-gc" />
+    <!--<feature name="multi-threading" />-->
+    <!--<feature name="age-of-shadows" />-->
+  </global>
+
+</sunuo-config>

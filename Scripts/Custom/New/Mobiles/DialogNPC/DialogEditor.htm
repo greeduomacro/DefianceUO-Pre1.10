@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+.style2 {font-size: x-large}
+body,td,th {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: small;
+}
+.style3 {color: #0000FF}
+pre {
+	font-family: "Courier New", Courier, mono;
+	font-size: small;
+}
+-->
+</style>
+</head>
+
+<body>
+<p><span class="style2">Dialog Editor</span><br>
+version 1.1<br>
+by Arya</p>
+<p><strong>Overview</strong></p>
+<p>This little piece of software is used to produce datafiles for the DialogNPC. Simply put it creates a dialog that will be displayed to the player through a gump, something along the lines of what happens in single player role playing games.</p>
+<p>When you start the program will be presented with the basic structure of a project on a tree view. Each project is divided into several main sections:</p>
+<ul>
+  <li>The Dialog options: allow to specify some properties that are valid at all times during the operation of the NPC.</li>
+  <li>Reactions: this section allows to specify what kind of conditions must be met in order to trigger the conversation. You can have multiple initial conditions leading to different speeches.</li>
+  <li>Dialog Structure: this is the most complex section of the project, as it will hold the whole dialog.</li>
+  <li>Outfit: specifies the appearance of the NPC as well as its stats and skills</li>
+  <li>Properties: sets a number of additional properties on the NPC, including damages, resistances, mount and more. </li>
+</ul>
+<p>On the left side of the window you will see some context sensitive buttons which are the tools you are going to use to create and edit your dialog structure.</p>
+<p>The lower portion of the interface will display configuration panel for each element of the dialog. When you start the program for the first time, it will be empty. Click on the New Dialog tree node and you will see the dialog configuration panel.</p>
+<p><strong>Reactions, Speech and Choices</strong></p>
+<p>I'd like to take a few lines to explain some basics terminology used in this program, which will make following the instructions easier:</p>
+<ul>
+  <li><em>Reaction</em> : this is an initial condition that will start a conversation with a player. The NPC will monitor the behaviours of players around it to catch any situation that might fire a conversation.</li>
+  <li><em>Speech</em> : this is the basic unit of the dialog. A speech consists of a title, a main text and a number of choices (specified as child nodes on the tree). On the structure tree speech is displayed in bold and green color.</li>
+  <li><em>Choice</em> : this is an answer the player can give to whatever the NPC has said in the speech. A choice must lead to either another speech or end the conversation. On the tree choices are displayed in blue and are always under the speech node they belong to. </li>
+</ul>
+<p><strong>Dialog Configuration</strong></p>
+<p>This section allows you to specify some general properties valid for the whole project:</p>
+<ul>
+  <li>Title: this is the tile you wish to give your conversation of quest. This text will appear at the very top of each gump displayed by the NPC using this dialog. The Title Preview shows you how your title will look in a UO gump, so you can make sure it won't go out of the gump's bounds.</li>
+  <li>Reaction Range: this is the value used to react to events in general (except speech). As the NPC might perform a lot of checks on players around it, if you plan on using it in highly populated areas I suggest you set this value to low for performance reasons.</li>
+  <li>Speech Range: this is the range for catching speech keywords. It's generally safe to specify a broader range for this parameter, however keep in mind that if the NPC is catching keywords in a highly populated area, it might begin conversations by mistake ( For example: if the NPC is configured to catch the 'hello' keyword, it might talk to all players that are greeting each other but have no intention of talking to the NPC).</li>
+  <li>Allow players to end the conversation: if checked, this option will allow players to end the conversation at any given time. If unchecked the players will be forced to carry on the conversation until the end (they can still log out to get rid of the gump though).</li>
+</ul>
+<p><strong>Outfit Configuration</strong></p>
+<p>You can optionally configure the appearance, stats and skills of your NPC. If the Custom Outfit check is unchecked, the NPC will receive a custom standard outfit. If on the other hand you wish to control the way your NPC looks, you have plenty of options to play with. Most of them are quite straightforward.</p>
+<p>Note on adding items: when you add an item you must specify its type. This must be a precise type name as defined in the scripts. For example, &quot;Left Arm&quot; will fail and not generate the item. On the other hand, &quot;LeftArm&quot; is a correct type name. Also, any item you specify must have a default constructor: in other words, you must be able to add it into the world by simply typing &quot;[Add ItemName&quot; in your client. If the item requires additional parameters, it will not be created.</p>
+<p>Additionally you can specify a custom initialization function for any further configuration you might wish to add. This function, when defined, is called always, even if the NPC is used with the default outfit option. The function must follow specific rules in its signature:</p>
+<ul>
+  <li>It must be declared <span class="style3">public</span>.</li>
+  <li>It must be declared <span class="style3">static</span>.</li>
+  <li>It must have only one argument of type <strong>DialogNPC</strong>. </li>
+</ul>
+<p>An example of a valid outfit configuration function is the following:</p>
+<pre>public class CustomNPCClass
+{
+	public static void InitializeCustomOutfit( DialogNPC npc )<br>	{
+		// Perform any custom initialization needed
+	}
+}
+</pre>
+<p>In the dialog editor, you must specify the type holding the function ( CustomNPCCLass in the example ) and the function name ( InitializeCustomOutfit ). </p>
+<p>Keep in mind that any custom initialization will not be cleared after the NPC is configured through a different datafile. If you're setting some properties that you don't want to transfer to a different datafile, delete the NPC and create a new one when switching configuration. </p>
+<p><strong>Properties</strong></p>
+<p>You can set a number of additional properties on the DialogNPC, including fame, karma, resistances, damages, hits, stamina, mana, a mount. You can also set some custom properties.</p>
+<p>Some properties accept a single value or a range of values. Those properties don't use a numeric control to enter the values, but a simple text box. You must specify either a single numeric value ( Example: 100 ), or a pair of values with the second higher than the first (Example 100,150 ). Additionally you can leave those fields empty not to set the property at all.</p>
+<p>Custom properties allow you to specify any property not defined in the dialog editor (Team for example). When setting the value of the property, keep in mind that the DialogNPC will use the parser included in the [Set command, therefore the value must be in a correct format for [Set to understand it.</p>
+<p>When you derive your custom class from DialogNPC, you can use the custom properties to set values defined on your derived class. </p>
+<p><strong>Reactions</strong></p>
+<p>The NPC can react to 4 types of triggers at this time:</p>
+<ol>
+  <li>Keywords: this is straightforward, specify a number of keywords separated by commas and the NPC will begin the conversation with the player who said the keyword (provided they're in speech range).</li>
+  <li>Double click: again this is straightforward. A player double clicks the NPC and the conversation starts.</li>
+  <li>React to an item given to the NPC: a player drops a specified item on the NPC and the conversation starts. You can specify a minimum amount as well (useful specially for gold). If the item dropped is accepted it will be deleted, otherwise it will be returned to the player.</li>
+  <li>React to an item inside the player's backpack: this performs checks whenever a player moves within the Range (specified in the dialog options) of the NPC. If an item of the specified type and min. amount is found inside the backpack, the conversation starts. This option might be tricky to use, because it might re-trigger the conversation right after it has ended as soon as the player moves. If you use this option I suggest you also use a function to delete the triggering item from the player's backpack as soon as the conversation ends (see later for instructions on interaction between the NPC and other scripts).</li>
+</ol>
+<p>Additionally, the NPC can perform a custom check performed through a scripted function. This feature MUST be used in conjunction with one of the other triggers. In order to succesfully specify the function you must declare the type that holds the function as well as its name. The function must have a specific signature:</p>
+<ul>
+  <li>The function must be declared <span class="style3">static</span>.</li>
+  <li>The function must be declared <span class="style3">public</span>. </li>
+  <li>The function must take two parameters, in the following order: a <strong>Mobile</strong> and a <strong>DialogNPC</strong>. The Mobile represents the player that's firing the trigger.</li>
+  <li>The function must return a <span class="style3">bool</span> value. Returning true will allow the dialog to start.</li>
+</ul>
+<p>An example of a valid function declaration is:</p>
+<pre>public class CustomNPCMethods
+
+{
+	public static bool CustomFunctionTrigger( Mobile m, DialogNPC npc )
+
+	{
+
+		// Perform verification and return a bool value
+
+	}
+
+}</pre>
+<p>You can specify more than one trigger for each reaction, and you can have multiple reactions defined. Each reaction must be linked to a speech (which is the basic unit of the dialog). When you create a new project, the only speech created is already linked to the only reaction in the tree. </p>
+<p><strong>Linking a speech to another element</strong></p>
+<p>Often enough you'll need to link a speech element to another object. This can occur in two cases:</p>
+<ol>
+  <li>You need tp specify what speech to run when a given initial condition is met.</li>
+  <li>You need to specify what speech to run when a choice is made by the user in the dialog.</li>
+</ol>
+<p>Both the Reactions and Choice configurations panel have a button that states whether the target speech has been set or not. In order to set the target speech or change the existing one, drag and drop a speech node from the main tree (speech nodes have bold font and green color). When you succesfully link the element to a speech, the button will say so. You can then click the button to go to the speech element linked to.</p>
+<p>When you add a speech element as a child of a choice node, the program will automatically set that choice to lead to the newly created speech.</p>
+<p><strong>Speech Configuration</strong></p>
+<p>A speech element has only two configuration options: the title and the text. The title will be displayed right below the main quest title and it will also help you identify the speech on the tree. A preview is provided for the title to avoid it going out of bounds on the gump.</p>
+<p>The text will be displayed on the gump using a HTML control, which means that you don't need to worry about bounds because the control is scrollable. However this also means that you must use HTML tags to create your text. I don't have a list of all the supported tags for the UO gumps, but the following are the ones most useful:</p>
+<ul>
+  <li>&lt;p&gt; : This tag will create text starting on a new line (Paragraph)</li>
+  <li>&lt;br&gt; : This will simply move the following text to the next line (but without leaving a blank line between as &lt;p&gt; does)</li>
+  <li>&lt;basefont color=#??????&gt; : This allows to specify a color for the following characters. The ?????? must be a hexadecimal 6-digits value (you can use any web/image editing software to find the color values).</li>
+</ul>
+<p>Of course each speech must provide at least one answer, or choice. This is done in the tree by adding choice (blue) nodes as children of the speech node. You can add up to 8 choices for each speech.</p>
+<p><strong>Choice Configuration</strong></p>
+<p>Each choice will be displayed to the user in the gump under the speech. You have a preview of the choice text to avoid going out of bounds.</p>
+<p>The Choice Action button allows to specify the speech that will be displayed if the user chooses this specific choice. If you use the Add Speech toolbox button to add a speech below the current choice, the two will be linked automatically. Otherwise you can drag any speech element from the tree on the button as explained on the Linking section below.</p>
+<p>Keep in mind that you can link speech from anywhere in the structure to a choice. This can make visualizing the structure a bit harder, and if you aren't careful you might create infinite loops in your dialog script. The program will not recognize loops for you, so make sure you do some testing on your dialog before deploying to a live shard.</p>
+<p>The End Conversation checkbox specifies whether this choice should close the conversation with the player.</p>
+<p>The Invoke Function section is the interesting part, and this is where you can get the NPC interact with whatever code you write. I'll dedicate a full section to this so read ahead.</p>
+<p><strong>Interaction with your own code</strong></p>
+<p>This NPC can be quite powerful when ti comes to giving out information to players. However its real power comes out only when used in combination with your own scripts. Then it becomes an actual questing platform, because each choice a user makes during the dialog can be linked to a function you have written.</p>
+<p>Example: you want a NPC to either kill or teleport a player depending on their answer to a question (possibly extrapolated from a quest book somewhere else). You make the question, and for the right answer you call a function that will teleport them to the next quest location, and if they choose the wrong answer just kill them.</p>
+<p>In order to enable this kind of behaviour on a choice, check the Invoke Function checkbox. You must then provide enough information for the NPC to locate your function:</p>
+<ul>
+  <li>The declaring type. I suggest you use the full type name, that is including the namespace. If the function is TravelHelper in the namespace Arya.DialogEditor, you would put Arya.DialogEditor.TravelHelper in this field. If an invalid type name is provided, the function will not be executed when the choice is selected.</li>
+  <li>The name of the function. This is quite straight forward, but the function itself must satisfy some requirements:
+    <ul>
+      <li>It must be declared <span class="style3">public</span></li>
+      <li>It must be declared <span class="style3">static</span></li>
+      <li></li>
+    </ul>
+  It must have two parameters: ( Mobile, Arya.DialogEditor.DialogNPC ) in this specific order.</li>
+</ul>
+<p>In other words the function skeleton is the following:</p>
+<p><span class="style3">public static</span> <span class="style3">void</span> FunctionName( Mobile m, Arya.DialogEditor.DialogNPC npc );</p>
+<p>This will give you access to the Mobile using the NPC and to the NPC itself when the function is called.</p>
+<p>Refer to the samples provided with the script to see exactly how these functions can be implemented.</p>
+<p><strong>Invoking a given speech from code</strong></p>
+<p>Sometimes you might need to invoke a given speech from code, perhaps depending on some parameters calculed in a callback function. This can be done quite easily, but requires the knowledge of the speech GUID (the speech's unique ID). You can obtain the ID for the speech by selecting it in the tree, and then hitting the Copy GUID button. This will place the GUID string on your clipboard, and you can hit CTRL+V to paste it in your coding environment.</p>
+<p>The NPC itself provides a function for retrieving a speech from a string GUID:</p>
+<p><span class="style3">public void</span> RunSpeechGump( <span class="style3">string</span> guid, Mobile m );</p>
+<p>Example of use: npc.RunSpeechGump( &quot;aee7cf89-5584-46c2-a37f-db350011ffd4&quot;, m );</p>
+<p>When pasting the guid make sure you enclose it within &quot;&quot; and don't add any space at the beginning or end of the string. If the ID is not valid for the dialog loaded on the NPC, the function will do nothing.</p>
+<p><strong>Verifying your dialog</strong></p>
+<p>The program has a function to verify your dialog. This will check consistency and ensure that the player doesn't get stuck on a page without no way out of it. However it will not verify infinite loops.</p>
+<p>It's highly recommended to always verify your dialogs before loading them on a NPC. All errors will be described and the corresponding node will be automatically selected.</p>
+<p><strong>Support and feedback</strong></p>
+<p>As usual all feedback is greatly appreciated. You can contact me by looking at my profile on the RunUO boards (Arya is the member name) or by visiting my site at <a href="http://arya.runuo.com/">http://arya.runuo.com/</a></p>
+</body>
+</html>

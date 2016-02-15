@@ -1,0 +1,49 @@
+namespace Server
+{
+    class StaticConfiguration
+    {
+        // Server Configuration
+        //---------------------
+        /* Address:
+         * 
+         * The default setting, a value of 'null', will attempt to detect your IP address automatically:
+         * public const string ServerAddress = "null";
+         * 
+         * This detection, however, does not work for servers behind routers. If you're running behind a router, put in your IP:
+         * public const string ServerAddress = "12.34.56.78";
+         * 
+         * If you need to resolve a DNS host name, you can do that too:
+         * public const string ServerAddress = "shard.host.com";
+         */
+
+        // attention: this values can be overwritten by the sunuo.xml! see: http://www.sunuo.org/doc/sunuo.html#config_net
+        public const string ServerName     = "Defiance UOR";
+        public const string ServerAddress  = "213.228.232.22";
+        public const int    ServerPort     = 2594;
+
+
+        // Testcenter configuration
+        //-------------------------
+        public const bool TestCenterActive = false;
+
+        
+        // MyRunUO
+        public const bool MyRunUOActive = false;
+                
+        // Database configuration
+        //-----------------------        
+        public static readonly string AccountDatabaseConnectString =
+		"Server=dfi.defianceuo.com;Database=ShardInfo;User ID=root;password=root;port=3306";
+
+
+        public static readonly string DonationDatabaseConnectString =
+		"Server=www.defianceuo.com;DSN=bah;Database=defiance_eshop;User ID=root;password=root;port=3306";
+
+
+        public static readonly string ModsDatabaseConnectString =
+                "Server=dfi.defianceuo.com;Database=uomods;User ID=mods;password='pass';port=3306";
+                
+        public static readonly string MyRunUODatabaseConnectString =
+				"Server=213.228.232.50;Database=MyDefiance;User ID=nick;password='pass';port=3306";
+    }
+}

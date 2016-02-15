@@ -1,0 +1,83 @@
+<?xml version="1.0" standalone="yes"?>
+<Messages>
+  <Message>
+    <ID>0</ID>
+    <Subject>Dev LiGhT : 08/02/2005</Subject>
+    <Body>Our new Fully Automated (Recieve Item Instantly) Donation System is online, you can visit it here:{p}{p}{a href="http://www.defianceuo.com/donationcart"}Automated Donation Center{/a} After you donate you must type [claimdonations to claim your Donations - Update: We now have new AoS Custom Houses avaliable on the Donation Center!.</Body>
+  </Message>
+  <Message>
+    <ID>1</ID>
+    <Subject>Dev Al : 27/01/2007</Subject>
+    <Body>The issue with the donation system has been resolved. It is working again. Sorry for the inconvenience and enjoy your stay on Defiance.</Body>
+  </Message>
+  <Message>
+    <ID>2</ID>
+    <Subject>Chief X Lord X : 31/01/2007</Subject>
+    <Body>Stress-test on the live shard!{br}{br}10 random online clients will be made perma donators.{br}10 random online clients will receive 1mil.{br}Idle as many clients as you can to increase the chance to be randomly picked throughout the day!</Body>
+  </Message>
+  <Message>
+    <ID>3</ID>
+    <Subject>Chief X Lord X : 31/01/2007</Subject>
+    <Body>BIG DEFIANCE UOR &amp; AOS JOIN DAY!{br}{br}The 4/2/2007 Defiance will have a major join day where all new players to Defiance will receive skillballs to easily get started! This is your chance to get a friend or family member started here!!!</Body>
+  </Message>
+  <Message>
+    <ID>4</ID>
+    <Subject>Chief X Lord X : 04/02/2007</Subject>
+    <Body>NEW ONLINE RECORD: 2520 players!</Body>
+  </Message>
+  <Message>
+    <ID>5</ID>
+    <Subject>Chief Light : 07/02/2007</Subject>
+    <Body>Donation Center Update!{p}{p}Dear Players, as you may know we are now on x64, and we have had large expenses due to this, we would like to remind you to please donate if you can. {a href="http://www.defianceuo.com/donate"}Donate Here!{/a}</Body>
+  </Message>
+  <Message>
+    <ID>6</ID>
+    <Subject>Chief X Lord X : 16/02/2007</Subject>
+    <Body>NOTE: Update is now Live, read forum for more details.</Body>
+  </Message>
+  <Message>
+    <ID>7</ID>
+    <Subject>Chief Light : 26/02/2007</Subject>
+    <Body>Reminder: The server will not restart tonight, there will be -no- server war at all... This will is standard till further notice.</Body>
+  </Message>
+  <Message>
+    <ID>8</ID>
+    <Subject>Chief X Lord X : 26/02/2007</Subject>
+    <Body>The COPPER Agents are going on a very long break!{br}{br}We urge people to turn in saved copper for rewards now or they might end up with nothing more than a pretty coin in the future.{br}{br}/Salute!</Body>
+  </Message>
+  <Message>
+    <ID>9</ID>
+    <Subject>Chief Light : 28/02/2007</Subject>
+    <Body>Publish 87 is now active, you can read the latest patches notes in the "Main Hall" of the DefianceNET forums.{p}{p}Type [forum now ingame to go there right now!</Body>
+  </Message>
+  <Message>
+    <ID>10</ID>
+    <Subject>Chief X Lord X : 01/03/2007</Subject>
+    <Body>UOR RAFFLE!!! Yes you can obtain raffle tickets from the donation website and the more you have the more chance to win! To see the prize, go to britain west bank and enter the RED gate. Enjoy!</Body>
+  </Message>
+  <Message>
+    <ID>11</ID>
+    <Subject>Chief X Lord X : 12/03/2007</Subject>
+    <Body>West britain bank roof holds a runebook to many new intown house locations. If you wish to become the owner of a wonderful intown house read {A HREF="http://www.defianceuo.com/forums/announcement.php?f=165&amp;a=13"}HERE{/A} Only 3 spots left.</Body>
+  </Message>
+  <Message>
+    <ID>12</ID>
+    <Subject>Chief Light : 29/04/2007</Subject>
+    <Body>New Defiance Donations,{p}{p}New Donations are now avaliable on the cart. More Donations are planned to be added later this week, which are currently in testing still. Go {a href="http://www.defianceuo.com/donate"}--}Here{--{/a} Now!</Body>
+  </Message>
+  <Message>
+    <ID>13</ID>
+    <Subject>Chief X Lord X : 05/05/2007</Subject>
+    <Body>One Britain townhouse just became available today, at this time it is the only free townhouse so be quick if you've been waiting for one to clear up! Use the runebook at britain roof to locate the unowned townhouse.</Body>
+  </Message>
+  <Message>
+    <ID>14</ID>
+    <Subject>Chief X Lord X : 06/05/2007</Subject>
+    <Body>Today everyone will receive a skillball at 6pm GMT, however note that these skills given today will NOT decay, but starting from next sunday, every skillball handed out on sundays in May month will decay if not used within 24hours.</Body>
+  </Message>
+  <Message>
+    <ID>15</ID>
+    <Subject>Chief Light : 06/05/2007</Subject>
+    <Body>Dear Players,{p}{p}Please do not follow the [servertime to get the current local time, as this time is incorrect.</Body>
+  </Message>
+</Messages>

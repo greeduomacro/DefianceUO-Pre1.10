@@ -1,0 +1,2 @@
+Add waging agains players.
+Add showing duel options to challengee.

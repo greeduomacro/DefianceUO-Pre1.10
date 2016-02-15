@@ -1,0 +1,68 @@
+Changes in 1.5 - 6/1/05
+
+- Pets lose their bonded status when unshrunk by someone who is not the control master before unshrinking.
+
+- When Mercenaries bond, their title will change to reflect thier new master, if they are Servant or above.
+
+- Mercenaries now have new commands: grab, loot, attack, tithe and list.  Grab picks up loot on the ground as long as it will not flag the mercenary gray.  Loot picks up loot on the ground and in corpses regardless of flagging.  Attack causes the mercenary to consecrate weapon (if they have tithing points and the chivalry skill), or use a special move.  Tithe causes the mercenary to tithe all the gold in its pack.  List causes the mercenary to list the contents of its pack.
+
+- Another bug was fixed involving equipping of multiple items on the same layer when the mercenary was instructed to dress.
+
+- Mercenaries with the healing skill will now heal themsleves provided they have bandaids in their pack.
+
+- Mercenaries will eat when hungry provide dthey have food in their pack.
+
+- Mercenaries now have an additional stage at 15M experience points.
+
+- Removed some of the skills on the Hiryu but bumped up its stats.
+
+
+
+Changes in 1.4 - 5/30/05
+
+- Changed the merc to require no taming skills to control.
+
+- Made the default for the pet leash to be infinite uses.
+
+- Fixed a bug where uses would go negative on the pet leash.
+
+- Defaulted to always happy for all Evos.
+
+- Fixed the EP command for the Hiryu.
+
+
+
+Changes in 1.3 - 5/26/05
+
+- Fixed a bug with followers not always updating when an Evo evolves.  Now when the followersMax is exceeded the evo will begin to randomly lose loyalty.  A message is seen by the control master as well.  Also the Evo emotes alerting others to a potential problem.  Once the loyalty reaches confused, the Evo is subject to release when the server does its loyalty sweep - this may happen anywhere from a few seconds to a maximum of one hour after loyalty reaches confused.
+
+- Fixed a bug where any kind of dust could be used by any Evo.  A new abstract method was added to BaseEvo to and is used to query the Type of dust that shoud be accepted by the creature.
+
+- Fixed a bug where multiple weapons coudl be equipped.  I believe all cases are covered now.
+
+- Evo Mercenaries can now equip jewelry (rings, earrings and bracelets).
+
+- Added a chance for the Hooded Shroud to the special items pack.
+
+
+Changes in 1.2 - 5/22/05
+
+- Fixed a typo in a user string in the shink item
+- Updated the version in all headers
+- Added this change log.
+
+
+Changes in 1.1 - 5/21/05
+
+Some changes were made to the BaseEvo interfaces and the EvoSpec/EvoStages. A couple new absract methods were added as well as a few new Attributes. It should not be a lot of work to install this but I recommend diffing the changes to be safe.
+
+- Added Mercenary and Mercenary Deed
+- Evos can be marked as tamable in the EvoSpec, with control for skill required to hatch as well as skill required to tame at each level
+- A user configurable variable switches between Evos always being happy as long as the owner is near, or the more realistic loyalty decay without feeding.
+- Moved setting of the skill values into the EvoSpec, changes are not allowed in the stages since players should have to work the pet skills up from the start.
+- ShrinkConfig has a new option to choose blessed or regular loot type for the Pet Leash
+- Two new attributes have been added for control over where the Exp Points are accumulated (OnDamage vs. OnMelee)
+- Cleaned up those messy constructors
+- Fixed a bug where some Evos skills would not gain beyond the original setting.
+- Pregnancy timer priority was lowered to be kinder to the servers
+- Added weapon skills to the properties on shrunken pets.
